@@ -12,9 +12,10 @@ namespace Shark {
         abstract public void InsertFront(T value);
         abstract public void InsertBack(T value);
         abstract public void Delete(int index);
+
+        abstract public void DeleteAll();
         abstract public void DeleteFront();
         abstract public void DeleteBack();
-        abstract public void DeleteAll();
         abstract public int LocateElement(T value);
         abstract public T GetElement(int index);
         abstract public void Traverse();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shark {
     class SingleLinkedList<T> : LinkedList<T> {
-        class Node<T> {
+        public class Node<T> {
             public Node() {
                 next = null;
             }
@@ -17,7 +17,7 @@ namespace Shark {
             public T data;
             public Node<T> next;
         }
-        private Node<T> Head;
+        public Node<T> Head;
         public override bool IsEmpty {
             get {
                 if (Head == null)
@@ -32,30 +32,82 @@ namespace Shark {
             Length = 0;
         }
         public override void Delete(int index) {
-            throw new NotImplementedException();
+
         }
+
         public override void DeleteAll() {
-            throw new NotImplementedException();
+            while(Head != null) {
+                Node<T> target = Head;
+                Head = Head.next;
+                target = null;
+            }
+            Length = 0;
         }
         public override void DeleteBack() {
-            throw new NotImplementedException();
+            if(Length == 0) {
+                throw new IndexOutOfRangeException();
+            }
+            else if (Length == 1) {
+                DeleteFront();
+                Length--;
+            }
+            else {
+                Node<T> previous = Head;
+                Node<T> current = Head;
+                while (current.next != null) {
+                    previous = current;
+                    current = current.next;
+                }
+                current = null;
+                previous.next = null;
+                Length--;
+            }
+            
         }
         public override void DeleteFront() {
-            throw new NotImplementedException();
+            if (Length == 0) {
+                throw new IndexOutOfRangeException();
+            }
+            else {
+
+                Node<T> target = Head;
+                Head = Head.next;
+                target = null;
+                Length--;
+            }
         }
         public override T GetElement(int index) {
-            return Head.data;
+            if (index < Length) {
+
+                Node<T> current = Head;
+                int currIndex = 0;
+                while (current.next != null && currIndex < index) {
+                    current = current.next;
+                    currIndex++;
+                }
+                return current.data;
+            }
+            else {
+                Console.WriteLine("Out of index.");
+                throw new IndexOutOfRangeException();
+            }
         }
         public override void Insert(int index, T value) {
-            Node<T> current = new Node<T>();
-            int currIndex = -1;
-            while(currIndex < index && current.next != null) {
-                current = current.next;
-                currIndex++;
+            if(index > Length - 1) {
+                Console.WriteLine($"insert at index {index} failed.");
+                throw new IndexOutOfRangeException();
             }
-            Node<T> newNode = new Node<T>();
-            newNode.next = current.next;
-            current.next = newNode;
+            else {
+                int currIndex = 0;
+                Node<T> current = Head;
+                while(current.next != null && currIndex < index) {
+                    current = current.next;
+                    currIndex++;
+                }
+                Node<T> newNode = new Node<T>(value);
+                newNode.next = current.next;
+                current.next = newNode;
+            }
         }
         public override void InsertBack(T value) {
             Node<T> newNode = new Node<T>(value);
@@ -81,6 +133,7 @@ namespace Shark {
             return 0;
         }
         public override void Traverse() {
+            Console.Write("> ");
             Node<T> current = Head;
             while(current != null) {
                 Console.Write(current.data);
@@ -88,7 +141,5 @@ namespace Shark {
             }
             Console.WriteLine();
         }
-
-       
     }
 }
